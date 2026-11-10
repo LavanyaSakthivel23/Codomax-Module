@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogSpace | Create Blog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>BlogSpace</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+        <a href="dashboard.html">Dashboard</a>
+    </nav>
+</header>
+
+<main class="auth-container">
+    <div class="auth-card">
+        <h2>Create Your Blog</h2>
+        <p>Share your ideas with the world</p>
+
+        <form onsubmit="createBlog(event)">
+            <label>Blog Title</label>
+            <input type="text" id="blogTitle"
+                   placeholder="Enter blog title" required>
+
+            <label>Category</label>
+            <select id="blogCategory" required>
+                <option value="">Select category</option>
+                <option>Technology</option>
+                <option>Education</option>
+                <option>Lifestyle</option>
+                <option>Travel</option>
+                <option>Other</option>
+            </select>
+
+            <label>Blog Content</label>
+            <textarea id="blogContent" rows="7"
+                      placeholder="Write your blog here..." required></textarea>
+
+            <button type="submit" class="btn">Publish Blog</button>
+        </form>
+    </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
