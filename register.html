@@ -4,46 +4,501 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlogSpace | Register</title>
-    <link rel="stylesheet" href="style.css">
+
+    <title>BlogSpace | Create Account</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f3f6fc;
+            min-height: 100vh;
+            color: #192c4d;
+        }
+
+        header {
+            height: 75px;
+            padding: 0 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #14254b;
+        }
+
+        .logo {
+            color: white;
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #80b5ff;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+
+        nav a {
+            color: #e2ebfa;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #80b5ff;
+        }
+
+        nav .nav-register {
+            background: #397ce7;
+            padding: 10px 19px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .main-container {
+            min-height: calc(100vh - 130px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 45px 20px;
+        }
+
+        .register-wrapper {
+            width: 100%;
+            max-width: 990px;
+            min-height: 590px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            box-shadow: 0 18px 55px rgba(20, 43, 83, 0.12);
+        }
+
+        /* LEFT PANEL */
+
+        .welcome-panel {
+            padding: 55px 43px;
+            background:
+                radial-gradient(circle at 10% 15%, #345f9e 0%, transparent 36%),
+                linear-gradient(145deg, #14254b, #1c477f, #2866b2);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-panel::before,
+        .welcome-panel::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50%;
+        }
+
+        .welcome-panel::before {
+            width: 270px;
+            height: 270px;
+            right: -100px;
+            top: -90px;
+        }
+
+        .welcome-panel::after {
+            width: 220px;
+            height: 220px;
+            left: -100px;
+            bottom: -90px;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-tag {
+            display: inline-block;
+            padding: 8px 14px;
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 30px;
+            color: #d7e8ff;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 27px;
+        }
+
+        .welcome-panel h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            line-height: 1.25;
+            margin-bottom: 19px;
+        }
+
+        .welcome-panel h1 span {
+            color: #8fc0ff;
+        }
+
+        .welcome-panel p {
+            color: #d6e4fa;
+            font-size: 14px;
+            line-height: 1.9;
+            max-width: 330px;
+        }
+
+        .welcome-quote {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255,255,255,0.09);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            color: #e1edff;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* RIGHT PANEL */
+
+        .form-panel {
+            padding: 48px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-panel h2 {
+            font-size: 28px;
+            color: #172c52;
+            margin-bottom: 9px;
+        }
+
+        .subtitle {
+            color: #8592a7;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #293c5c;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #dce4f0;
+            background: #fafcff;
+            border-radius: 9px;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+            color: #263957;
+            transition: 0.25s;
+        }
+
+        input:focus {
+            border-color: #397ce7;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(57,124,231,0.10);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 65px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #397ce7;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(110deg, #397ce7, #2455a5);
+            color: white;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            box-shadow: 0 6px 17px rgba(57,124,231,0.22);
+            transition: 0.3s;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 23px rgba(57,124,231,0.32);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #8592a7;
+        }
+
+        .login-link a {
+            color: #3478e5;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            background: #14254b;
+            color: #bdcbe2;
+            font-size: 12px;
+        }
+
+        footer span {
+            color: #80b5ff;
+            font-weight: 700;
+        }
+
+        @media(max-width: 750px) {
+            header {
+                padding: 0 5%;
+            }
+
+            nav {
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .register-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 470px;
+            }
+
+            .welcome-panel {
+                padding: 35px 30px;
+            }
+
+            .welcome-panel h1 {
+                font-size: 33px;
+            }
+
+            .welcome-quote {
+                margin-top: 20px;
+            }
+
+            .form-panel {
+                padding: 38px 28px;
+            }
+        }
+
+        @media(max-width: 430px) {
+            header {
+                height: auto;
+                padding: 17px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-container {
+                padding: 25px 13px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<header>
-    <h1>BlogSpace</h1>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="login.html">Login</a>
-        <a href="register.html">Register</a>
-        <a href="dashboard.html">Dashboard</a>
-    </nav>
-</header>
 
-<main class="auth-container">
-    <div class="auth-card">
-        <h2>Create Account</h2>
-        <p>Join the BlogSpace community</p>
+    <header>
+        <a href="index.html" class="logo">Blog<span>Space.</span></a>
 
-        <form onsubmit="registerUser(event)">
-            <label>Full Name</label>
-            <input type="text" id="regName" placeholder="Enter your name" required>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="nav-register">Register</a>
+        </nav>
+    </header>
 
-            <label>Email Address</label>
-            <input type="email" id="regEmail" placeholder="Enter your email" required>
+    <main class="main-container">
 
-            <label>Password</label>
-            <input type="password" id="regPassword" minlength="6"
-                   placeholder="Create a password" required>
+        <div class="register-wrapper">
 
-            <button type="submit" class="btn">Register</button>
-        </form>
+            <!-- WELCOME PANEL -->
 
-        <p class="auth-link">
-            Already have an account?
-            <a href="login.html">Login here</a>
-        </p>
-    </div>
-</main>
+            <section class="welcome-panel">
 
-<script src="script.js"></script>
+                <div class="welcome-content">
+
+                    <div class="welcome-tag">JOIN THE BLOGSPACE COMMUNITY</div>
+
+                    <h1>Start your journey. <span>Share your story.</span></h1>
+
+                    <p>
+                        Your voice deserves a place in the world.
+                        Create your account, express your creativity,
+                        discover inspiring stories and connect through ideas.
+                    </p>
+
+                    <div class="welcome-quote">
+                        "A single idea can create a thousand stories.
+                        Your next chapter starts right here."
+                        <br><br>
+                        — The BlogSpace Community
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- REGISTER FORM -->
+
+            <section class="form-panel">
+
+                <h2>Create Account ✨</h2>
+
+                <p class="subtitle">
+                    Join BlogSpace and start sharing your ideas.
+                </p>
+
+                <form onsubmit="registerUser(event)">
+
+                    <div class="form-group">
+
+                        <label for="regName">Full Name</label>
+
+                        <input
+                            type="text"
+                            id="regName"
+                            placeholder="Enter your full name"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="regEmail">Email Address</label>
+
+                        <input
+                            type="email"
+                            id="regEmail"
+                            placeholder="Enter your email address"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="regPassword">Password</label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="regPassword"
+                                placeholder="Create a password"
+                                minlength="6"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                onclick="togglePassword()"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="register-btn">
+                        Create My Account →
+                    </button>
+
+                </form>
+
+                <p class="login-link">
+                    Already have an account?
+                    <a href="login.html">Login here</a>
+                </p>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer>
+        Made with 💙 by <span>BlogSpace</span> |
+        Share your thoughts. Inspire the world.
+    </footer>
+
+    <script>
+        function togglePassword() {
+
+            const password = document.getElementById("regPassword");
+            const button = document.querySelector(".toggle-password");
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.textContent = "Hide";
+            } else {
+                password.type = "password";
+                button.textContent = "Show";
+            }
+        }
+    </script>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
