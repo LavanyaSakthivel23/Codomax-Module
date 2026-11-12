@@ -30,17 +30,11 @@ function escapeHTML(value) {
 }
 
 async function getResponseData(response) {
-    const text = await response.text();
-
-    try {
-        return text ? JSON.parse(text) : {};
-    } catch {
-        return { message: text || "Unexpected server response." };
-    }
+    return await response.json();
 }
 
 // ==========================================
-// 1. USER REGISTRATION
+// REGISTER
 // ==========================================
 
 async function registerUser(event) {
@@ -50,42 +44,29 @@ async function registerUser(event) {
     const email = document.getElementById("regEmail").value.trim();
     const password = document.getElementById("regPassword").value;
 
-    if (!name || !email || !password) {
-        showMessage("Please fill in all fields.", "error");
-        return;
-    }
-
     try {
         const response = await fetch(`${API_URL}/auth/register`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                password
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password })
         });
 
         const data = await getResponseData(response);
 
         if (!response.ok) {
-            throw new Error(data.message || "Registration failed.");
+            return showMessage(data.message || "Registration failed");
         }
 
-        showMessage("Registration successful! Please log in.");
-
+        showMessage("Registration successful! Please login.");
         window.location.href = "login.html";
 
     } catch (error) {
-        console.error("Registration error:", error);
-        showMessage(error.message || "Unable to register. Check your server.");
+        showMessage("Unable to connect to server.");
     }
 }
 
 // ==========================================
-// 2. USER LOGIN
+// LOGIN
 // ==========================================
 
 async function loginUser(event) {
@@ -94,31 +75,17 @@ async function loginUser(event) {
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value;
 
-    if (!email || !password) {
-        showMessage("Please enter your email and password.", "error");
-        return;
-    }
-
     try {
         const response = await fetch(`${API_URL}/auth/login`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email,
-                password
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
         });
 
         const data = await getResponseData(response);
 
         if (!response.ok) {
-            throw new Error(data.message || "Login failed.");
-        }
-
-        if (!data.token) {
-            throw new Error("Login succeeded but the server did not return a token.");
+            return showMessage(data.message || "Login failed");
         }
 
         localStorage.setItem("token", data.token);
@@ -127,54 +94,28 @@ async function loginUser(event) {
             localStorage.setItem("user", JSON.stringify(data.user));
         }
 
-        showMessage("Login successful! Welcome to BlogSpace.");
-
+        showMessage("Login successful!");
         window.location.href = "create-blog.html";
 
     } catch (error) {
-        console.error("Login error:", error);
-        showMessage(error.message || "Unable to log in. Check your server.");
+        showMessage("Unable to connect to server.");
     }
 }
 
 // ==========================================
-// 3. CREATE / PUBLISH BLOG
+// CREATE BLOG
 // ==========================================
 
 async function createBlog(event) {
     event.preventDefault();
 
-    const titleInput = document.getElementById("blogTitle");
-    const contentInput = document.getElementById("blogContent");
+    const title = document.getElementById("blogTitle").value.trim();
+    const content = document.getElementById("blogContent").value.trim();
 
-    if (!titleInput || !contentInput) {
-        showMessage("Blog form fields could not be found.", "error");
-        return;
-    }
-
-    const title = titleInput.value.trim();
-    const content = contentInput.value.trim();
-
-    if (!title || !content) {
-        showMessage("Please enter both a blog title and content.", "error");
-        return;
-    }
-
-    const token = getToken();
-
-    if (!token) {
-        showMessage("Please log in before publishing a blog.");
+    if (!getToken()) {
+        showMessage("Please login first.");
         window.location.href = "login.html";
         return;
-    }
-
-    const publishButton = document.querySelector(
-        'button[type="submit"]'
-    );
-
-    if (publishButton) {
-        publishButton.disabled = true;
-        publishButton.textContent = "Publishing...";
     }
 
     try {
@@ -182,154 +123,265 @@ async function createBlog(event) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${getToken()}`
             },
-            body: JSON.stringify({
-                title,
-                content
-            })
+            body: JSON.stringify({ title, content })
         });
 
         const data = await getResponseData(response);
 
         if (!response.ok) {
-            if (response.status === 401 || response.status === 403) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                throw new Error("Your login session has expired. Please log in again.");
-            }
-
-            throw new Error(data.message || "Blog publishing failed.");
+            return showMessage(data.message || "Blog publishing failed");
         }
 
-        showMessage("Your blog has been published successfully!");
-
+        showMessage("Blog published successfully!");
         window.location.href = "dashboard.html";
 
     } catch (error) {
-        console.error("Blog publishing error:", error);
-        showMessage(error.message || "Unable to publish your blog.");
-
-        if (publishButton) {
-            publishButton.disabled = false;
-            publishButton.textContent = "Publish Blog";
-        }
+        showMessage("Unable to connect to server.");
     }
 }
 
 // ==========================================
-// 4. DISPLAY ALL BLOGS ON DASHBOARD
+// READ - LOAD ALL BLOGS
 // ==========================================
 
 async function loadBlogs() {
-    const container = document.getElementById("myBlogs");
+    const blogContainer = document.getElementById("myBlogs");
 
-    if (!container) {
-        return;
-    }
+    if (!blogContainer) return;
 
-    container.innerHTML = "<p>Loading blogs...</p>";
+    blogContainer.innerHTML = "Loading blogs...";
 
     try {
         const response = await fetch(`${API_URL}/blogs`);
         const data = await getResponseData(response);
 
         if (!response.ok) {
-            throw new Error(data.message || "Unable to load blogs.");
-        }
-
-        const blogs = Array.isArray(data)
-            ? data
-            : (data.blogs || []);
-
-        if (blogs.length === 0) {
-            container.innerHTML = `
-                <div style="text-align:center; padding:30px;">
-                    <h3>No blogs published yet.</h3>
-                    <p>Be the first to share a story!</p>
-                    <a href="create-blog.html">Create your first blog</a>
-                </div>
-            `;
+            blogContainer.innerHTML = "Unable to load blogs.";
             return;
         }
 
-        container.innerHTML = blogs.map(blog => {
-            const authorName = blog.author?.name || "BlogSpace Author";
+        const blogs = data.blogs || [];
 
-            const date = blog.createdAt
-                ? new Date(blog.createdAt).toLocaleDateString()
+        if (blogs.length === 0) {
+            blogContainer.innerHTML = "<p>No blogs available yet.</p>";
+            return;
+        }
+
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        const currentUserId = user ? String(user._id || user.id || "") : "";
+
+        blogContainer.innerHTML = blogs.map(blog => {
+            const authorId = blog.author
+                ? String(blog.author._id || blog.author)
                 : "";
 
-            const preview = String(blog.content || "").slice(0, 150);
+            const isOwner = currentUserId && authorId === currentUserId;
 
             return `
-                <article style="
-                    background:white;
-                    padding:22px;
-                    margin:15px 0;
-                    border-radius:14px;
-                    box-shadow:0 5px 20px rgba(20,43,83,0.08);
-                ">
-                    <h3 style="color:#172c52; margin-bottom:10px;">
-                        ${escapeHTML(blog.title)}
-                    </h3>
+                <div class="blog-card">
+                    <h3>${escapeHTML(blog.title)}</h3>
+                    <p>By: ${escapeHTML(blog.author?.name || "Unknown")}</p>
+                    <p>${escapeHTML(
+                        blog.content.substring(0, 150)
+                    )}...</p>
 
-                    <p style="color:#64748b; line-height:1.7;">
-                        ${escapeHTML(preview)}${blog.content?.length > 150 ? "..." : ""}
-                    </p>
-
-                    <p style="font-size:12px; color:#8592a7; margin:12px 0;">
-                        By ${escapeHTML(authorName)}
-                        ${date ? " | " + escapeHTML(date) : ""}
-                    </p>
-
-                    <a href="blog-details.html?id=${encodeURIComponent(blog._id)}"
-                       style="
-                           display:inline-block;
-                           padding:10px 18px;
-                           background:#397ce7;
-                           color:white;
-                           text-decoration:none;
-                           border-radius:8px;
-                           font-size:13px;
-                           font-weight:bold;
-                       ">
-                        Read More →
+                    <a class="btn"
+                       href="blog-details.html?id=${encodeURIComponent(blog._id)}">
+                       Read More
                     </a>
-                </article>
+
+                    ${isOwner ? `
+                        <div class="blog-actions">
+                            <a class="edit-btn"
+                               href="edit-blog.html?id=${encodeURIComponent(blog._id)}">
+                               Edit
+                            </a>
+
+                            <button class="delete-btn"
+                                onclick="deleteBlog('${blog._id}')">
+                                Delete
+                            </button>
+                        </div>
+                    ` : ""}
+                </div>
             `;
         }).join("");
 
     } catch (error) {
-        console.error("Loading blogs error:", error);
-
-        container.innerHTML = `
-            <p style="color:#dc2626;">
-                Unable to load blogs. Please refresh the page.
-            </p>
-        `;
+        blogContainer.innerHTML = "<p>Error loading blogs.</p>";
     }
 }
 
 // ==========================================
-// 5. LOGOUT
+// UPDATE - LOAD SELECTED BLOG FOR EDITING
+// ==========================================
+
+async function loadEditBlog() {
+    const titleInput = document.getElementById("editTitle");
+    const contentInput = document.getElementById("editContent");
+
+    if (!titleInput || !contentInput) return;
+
+    if (!getToken()) {
+        showMessage("Please login first.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    const blogId = new URLSearchParams(window.location.search).get("id");
+
+    if (!blogId) {
+        showMessage("Blog ID is missing.");
+        window.location.href = "dashboard.html";
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/blogs`);
+        const data = await getResponseData(response);
+
+        if (!response.ok) {
+            throw new Error(data.message || "Unable to fetch blogs");
+        }
+
+        const blog = (data.blogs || []).find(item => item._id === blogId);
+
+        if (!blog) {
+            showMessage("Blog not found.");
+            window.location.href = "dashboard.html";
+            return;
+        }
+
+        titleInput.value = blog.title;
+        contentInput.value = blog.content;
+
+    } catch (error) {
+        showMessage(error.message || "Unable to load blog.");
+    }
+}
+
+// ==========================================
+// UPDATE - SAVE BLOG CHANGES
+// ==========================================
+
+async function updateBlog(event) {
+    event.preventDefault();
+
+    const blogId = new URLSearchParams(window.location.search).get("id");
+    const title = document.getElementById("editTitle").value.trim();
+    const content = document.getElementById("editContent").value.trim();
+
+    if (!title || !content) {
+        showMessage("Please enter both title and content.");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `${API_URL}/blogs/${encodeURIComponent(blogId)}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${getToken()}`
+                },
+                body: JSON.stringify({ title, content })
+            }
+        );
+
+        const data = await getResponseData(response);
+
+        if (!response.ok) {
+            return showMessage(data.message || "Blog update failed.");
+        }
+
+        showMessage("Blog updated successfully!");
+        window.location.href = "dashboard.html";
+
+    } catch (error) {
+        showMessage("Unable to connect to server.");
+    }
+}
+
+// ==========================================
+// DELETE BLOG
+// ==========================================
+
+async function deleteBlog(blogId) {
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this blog?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+        const response = await fetch(
+            `${API_URL}/blogs/${encodeURIComponent(blogId)}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${getToken()}`
+                }
+            }
+        );
+
+        const data = await getResponseData(response);
+
+        if (!response.ok) {
+            return showMessage(data.message || "Blog deletion failed.");
+        }
+
+        showMessage("Blog deleted successfully!");
+        loadBlogs();
+
+    } catch (error) {
+        showMessage("Unable to connect to server.");
+    }
+}
+
+// ==========================================
+// LOGOUT
 // ==========================================
 
 function logoutUser() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-
-    showMessage("You have logged out successfully.");
-
     window.location.href = "login.html";
 }
 
 // ==========================================
-// 6. LOAD DASHBOARD BLOGS WHEN PAGE OPENS
+// PAGE LOADING
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("myBlogs")) {
         loadBlogs();
     }
+
+    if (document.getElementById("editBlogForm")) {
+        loadEditBlog();
+    }
 });
+
+// ==========================================
+// SEARCH BLOGS
+// ==========================================
+
+function searchBlogs() {
+    const searchInput = document.getElementById("searchBlogs");
+    const searchText = searchInput.value.toLowerCase().trim();
+
+    const blogCards = document.querySelectorAll("#myBlogs .blog-card");
+
+    blogCards.forEach(card => {
+        const blogText = card.textContent.toLowerCase();
+
+        if (blogText.includes(searchText)) {
+            card.style.display = "";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}

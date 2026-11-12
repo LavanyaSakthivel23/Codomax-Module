@@ -6,10 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlogSpace | Dashboard</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .blog-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .edit-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+        .blog-card {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+    </style>
 </head>
+
 <body>
+
 <header>
     <h1>BlogSpace</h1>
+
     <nav>
         <a href="index.html">Home</a>
         <a href="login.html">Login</a>
@@ -19,15 +67,25 @@
 </header>
 
 <main class="blogs">
+
     <h2>My Dashboard</h2>
     <p>Welcome to your personal blog dashboard!</p>
 
     <a href="create-blog.html" class="btn">+ Create New Blog</a>
 
     <h2 style="margin-top:30px;">My Blog Posts</h2>
+<input
+    type="text"
+    id="searchBlogs"
+    placeholder="🔍 Search blogs by title or content..."
+    oninput="searchBlogs()"
+>
+
     <div id="myBlogs"></div>
+
 </main>
 
 <script src="script.js"></script>
+
 </body>
 </html>

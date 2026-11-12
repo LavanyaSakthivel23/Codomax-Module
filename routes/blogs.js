@@ -55,4 +55,80 @@ router.get("/", async (req, res) => {
     }
 });
 
+// UPDATE A BLOG
+router.put("/:id", authMiddleware, async (req, res) => {
+    try {
+        const { title, content } = req.body;
+
+        if (!title || !content) {
+            return res.status(400).json({
+                message: "Please enter title and content"
+            });
+        }
+
+        const blog = await Blog.findById(req.params.id);
+
+        if (!blog) {
+            return res.status(404).json({
+                message: "Blog not found"
+            });
+        }
+
+        // Only the blog author can update it
+        if (blog.author.toString() !== req.user.id) {
+            return res.status(403).json({
+                message: "You are not authorized to update this blog"
+            });
+        }
+
+        blog.title = title;
+        blog.content = content;
+
+        await blog.save();
+
+        res.status(200).json({
+            message: "Blog updated successfully!",
+            blog
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Blog update failed",
+            error: error.message
+        });
+    }
+});
+
+// DELETE A BLOG
+router.delete("/:id", authMiddleware, async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id);
+
+        if (!blog) {
+            return res.status(404).json({
+                message: "Blog not found"
+            });
+        }
+
+        // Only the blog author can delete it
+        if (blog.author.toString() !== req.user.id) {
+            return res.status(403).json({
+                message: "You are not authorized to delete this blog"
+            });
+        }
+
+        await Blog.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({
+            message: "Blog deleted successfully!"
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Blog deletion failed",
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;

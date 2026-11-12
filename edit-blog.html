@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogSpace | Edit Blog</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>BlogSpace</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="#" onclick="logoutUser()">Logout</a>
+    </nav>
+</header>
+
+<main class="blogs">
+    <h2>Edit Your Blog</h2>
+
+    <form id="editBlogForm" onsubmit="updateBlog(event)">
+        <label for="editTitle">Blog Title</label>
+        <input
+            type="text"
+            id="editTitle"
+            placeholder="Enter blog title"
+            required
+        >
+
+        <label for="editContent">Blog Content</label>
+        <textarea
+            id="editContent"
+            rows="10"
+            placeholder="Write your blog..."
+            required
+        ></textarea>
+
+        <button type="submit" class="btn">Update Blog</button>
+        <a href="dashboard.html" class="btn">Cancel</a>
+    </form>
+
+    <p id="editMessage"></p>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,4 +1,67 @@
 
+/* =================================
+   EDIT BLOG PAGE
+================================= */
+
+#editBlogForm {
+    max-width: 750px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#editBlogForm label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #192b55;
+}
+
+#editBlogForm input,
+#editBlogForm textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    outline: none;
+}
+
+#editBlogForm input:focus,
+#editBlogForm textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 5px rgba(37, 99, 235, 0.2);
+}
+
+#editBlogForm textarea {
+    min-height: 250px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+#editBlogForm button {
+    width: fit-content;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 7px;
+    background: #192b55;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#editBlogForm button:hover {
+    background: #294780;
+}
+
+#editBlogForm a.btn {
+    width: fit-content;
+    text-decoration: none;
+    padding: 12px 25px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -273,4 +336,24 @@ footer {
     .blog-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* DASHBOARD SEARCH BOX */
+
+#searchBlogs {
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    padding: 14px 18px;
+    margin: 15px 0 20px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+    background: white;
+}
+
+#searchBlogs:focus {
+    border-color: #536dfe;
+    box-shadow: 0 0 6px rgba(83, 109, 254, 0.2);
 }
