@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Blog Details | BlogSpace</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f5f7fc;
+            color: #17233d;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 75px;
+            padding: 0 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #101c36;
+            color: white;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #6ca8ff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #d7e3fa;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #75aaff;
+        }
+
+        .nav-button {
+            padding: 11px 20px;
+            background: #3478e5;
+            border-radius: 8px;
+            color: white !important;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 310px;
+            padding: 65px 20px 100px;
+            text-align: center;
+            background:
+                radial-gradient(circle at 15% 30%, #315a9c 0%, transparent 35%),
+                linear-gradient(120deg, #101c36, #173e79, #235ca7);
+            color: white;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 8px 17px;
+            border: 1px solid #8bb8ff;
+            border-radius: 30px;
+            color: #c8ddff;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 43px;
+            margin-bottom: 13px;
+        }
+
+        .hero p {
+            color: #d4e2fa;
+            font-size: 15px;
+        }
+
+        /* ARTICLE */
+
+        .article-wrapper {
+            max-width: 950px;
+            margin: -65px auto 70px;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 18px;
+            padding: 55px 65px;
+            box-shadow: 0 15px 55px rgba(21, 48, 91, 0.12);
+            border: 1px solid #eaf0fa;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3478e5;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .back-link:hover {
+            color: #173e79;
+        }
+
+        .category {
+            display: inline-block;
+            padding: 7px 15px;
+            background: #eaf2ff;
+            color: #2767c7;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        #blogTitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 39px;
+            line-height: 1.3;
+            color: #15294b;
+            margin-bottom: 24px;
+            overflow-wrap: anywhere;
+        }
+
+        /* AUTHOR */
+
+        .author-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 0;
+            border-top: 1px solid #edf1f7;
+            border-bottom: 1px solid #edf1f7;
+            margin-bottom: 35px;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3478e5, #173e79);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .author-info strong {
+            display: block;
+            color: #172b4d;
+            font-size: 14px;
+        }
+
+        .author-info span {
+            display: block;
+            color: #8793a7;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .article-label {
+            margin-left: auto;
+            color: #3478e5;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* CONTENT */
+
+        .content-heading {
+            color: #173e79;
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
+
+        #blogContent {
+            color: #526078;
+            font-size: 16px;
+            line-height: 2;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .article-footer {
+            margin-top: 45px;
+            padding: 22px;
+            border-radius: 12px;
+            background: #f0f5ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .article-footer p {
+            color: #42618f;
+            font-size: 13px;
+        }
+
+        .share-button {
+            border: none;
+            background: #3478e5;
+            color: white;
+            padding: 11px 19px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+
+        .share-button:hover {
+            background: #173e79;
+            transform: translateY(-2px);
+        }
+
+        /* LOADING */
+
+        #message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #3478e5;
+            font-weight: 600;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 28px 15px;
+            background: #101c36;
+            color: #aabbd8;
+            font-size: 13px;
+        }
+
+        footer span {
+            color: #75aaff;
+            font-weight: 700;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 650px) {
+            .navbar {
+                padding: 0 5%;
+                height: 65px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .logo {
+                font-size: 21px;
+            }
+
+            .hero {
+                min-height: 260px;
+                padding-top: 55px;
+            }
+
+            .hero h1 {
+                font-size: 31px;
+            }
+
+            .article-card {
+                padding: 30px 22px;
+            }
+
+            #blogTitle {
+                font-size: 29px;
+            }
+
+            #blogContent {
+                font-size: 15px;
+            }
+
+            .article-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+        <div class="logo">Blog<span>Space.</span></div>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="create-blog.html" class="nav-button">Write a Blog +</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+
+    <section class="hero">
+        <div class="hero-tag">BLOGSPACE JOURNAL</div>
+        <h1>Stories Worth Reading.</h1>
+        <p>Explore ideas, share knowledge and discover new perspectives.</p>
+    </section>
+
+    <!-- BLOG ARTICLE -->
+
+    <main class="article-wrapper">
+
+        <article class="article-card">
+
+            <a href="dashboard.html" class="back-link">
+                ← Back to All Blogs
+            </a>
+
+            <div id="message">Loading your story...</div>
+
+            <div id="blogDetails" hidden>
+
+                <div class="category">FEATURED ARTICLE</div>
+
+                <h1 id="blogTitle"></h1>
+
+                <div class="author-section">
+
+                    <div class="author-avatar" id="authorAvatar">B</div>
+
+                    <div class="author-info">
+                        <strong id="blogAuthor"></strong>
+                        <span id="blogDate"></span>
+                    </div>
+
+                    <div class="article-label">BLOGSPACE READER</div>
+
+                </div>
+
+                <h3 class="content-heading">About this story</h3>
+
+                <p id="blogContent"></p>
+
+                <div class="article-footer">
+                    <p>Thank you for reading with BlogSpace! 💙</p>
+
+                    <button class="share-button" onclick="shareBlog()">
+                        ↗ Share Article
+                    </button>
+                </div>
+
+            </div>
+
+        </article>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer>
+        Made with 💙 by <span>BlogSpace</span> | Share your thoughts. Inspire the world.
+    </footer>
+
+    <script>
+
+        const API_URL = "http://localhost:5000/api";
+
+        async function loadBlogDetails() {
+
+            const message = document.getElementById("message");
+            const details = document.getElementById("blogDetails");
+
+            const params = new URLSearchParams(window.location.search);
+            const blogId = params.get("id");
+
+            if (!blogId) {
+                message.textContent = "No blog selected. Please return to the dashboard.";
+                return;
+            }
+
+            try {
+
+                const response = await fetch(`${API_URL}/blogs`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error("Unable to fetch blogs.");
+                }
+
+                const blog = data.blogs.find(item => item._id === blogId);
+
+                if (!blog) {
+                    message.textContent = "Sorry! This blog could not be found.";
+                    return;
+                }
+
+                const author = blog.author?.name || "Unknown Author";
+
+                document.getElementById("blogTitle").textContent = blog.title;
+
+                document.getElementById("blogContent").textContent = blog.content;
+
+                document.getElementById("blogAuthor").textContent =
+                    author;
+
+                document.getElementById("authorAvatar").textContent =
+                    author.charAt(0).toUpperCase();
+
+                document.getElementById("blogDate").textContent =
+                    "Published on " +
+                    new Date(blog.createdAt).toLocaleDateString(
+                        "en-IN",
+                        { day: "numeric", month: "long", year: "numeric" }
+                    );
+
+                message.hidden = true;
+                details.hidden = false;
+
+            } catch (error) {
+
+                message.textContent =
+                    "Unable to load this article. Please check your server connection.";
+
+                console.error(error);
+            }
+        }
+
+        function shareBlog() {
+
+            if (navigator.share) {
+
+                navigator.share({
+                    title: document.getElementById("blogTitle").textContent,
+                    text: "Check out this article on BlogSpace!",
+                    url: window.location.href
+                }).catch(error => {
+                    console.log("Sharing cancelled.");
+                });
+
+            } else if (navigator.clipboard) {
+
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => alert("Blog link copied successfully!"))
+                    .catch(() => alert("Unable to copy the link."));
+
+            } else {
+                alert("Copy the page URL from your browser to share this blog.");
+            }
+        }
+
+        loadBlogDetails();
+
+    </script>
+
+</body>
+</html>

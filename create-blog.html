@@ -1,0 +1,647 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BlogSpace | Writing Studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f3f6fc;
+            color: #182747;
+        }
+
+        /* NAVBAR */
+
+        header {
+            height: 76px;
+            padding: 0 8%;
+            background: #14254b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 18px rgba(10, 30, 70, 0.12);
+        }
+
+        header h1 {
+            font-size: 27px;
+            letter-spacing: -1px;
+        }
+
+        header h1 span {
+            color: #77adff;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #e1eaff;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #80b5ff;
+        }
+
+        nav .nav-cta {
+            background: #397ce7;
+            padding: 11px 19px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        /* HERO */
+
+        .hero {
+            background:
+                radial-gradient(circle at 15% 20%, #345e9c 0%, transparent 34%),
+                linear-gradient(120deg, #14254b, #1c477f, #2767b5);
+            padding: 58px 20px 85px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 30px;
+            padding: 8px 17px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #d9e9ff;
+            margin-bottom: 18px;
+        }
+
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 43px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #d5e4fb;
+            font-size: 15px;
+        }
+
+        /* MAIN LAYOUT */
+
+        .main-container {
+            max-width: 1150px;
+            margin: -48px auto 70px;
+            padding: 0 22px;
+            display: grid;
+            grid-template-columns: 1fr 310px;
+            gap: 25px;
+            position: relative;
+        }
+
+        /* EDITOR */
+
+        .editor-card {
+            background: white;
+            padding: 35px;
+            border-radius: 17px;
+            box-shadow: 0 12px 40px rgba(22, 49, 91, 0.09);
+            border: 1px solid #e9eef7;
+        }
+
+        .editor-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 27px;
+            gap: 10px;
+        }
+
+        .editor-heading h3 {
+            font-size: 21px;
+            color: #172c52;
+        }
+
+        .draft-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #2870d5;
+            background: #eaf2ff;
+            padding: 8px 12px;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 23px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #263957;
+            margin-bottom: 10px;
+        }
+
+        .field-hint {
+            font-size: 11px;
+            color: #8794a9;
+            margin-top: 7px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 15px 16px;
+            border: 1px solid #dce4f0;
+            border-radius: 9px;
+            outline: none;
+            background: #fbfcff;
+            color: #243652;
+            font-family: inherit;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #4789ed;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(71,137,237,0.10);
+        }
+
+        input {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        textarea {
+            min-height: 260px;
+            resize: vertical;
+            line-height: 1.8;
+        }
+
+        textarea::placeholder, input::placeholder {
+            color: #a0aabd;
+        }
+
+        /* EDITOR STATS */
+
+        .editor-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .editor-stats span {
+            font-size: 11px;
+            color: #78869d;
+        }
+
+        .editor-stats strong {
+            color: #397ce7;
+        }
+
+        /* PUBLISH BUTTON */
+
+        .publish-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(110deg, #3478e5, #2355a6);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 6px 17px rgba(52,120,229,0.22);
+            transition: 0.3s;
+        }
+
+        .publish-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 23px rgba(52,120,229,0.32);
+        }
+
+        .publish-note {
+            text-align: center;
+            color: #929db0;
+            font-size: 11px;
+            margin-top: 13px;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .side-card {
+            background: white;
+            padding: 24px;
+            border-radius: 15px;
+            border: 1px solid #e9eef7;
+            box-shadow: 0 9px 28px rgba(22,49,91,0.06);
+        }
+
+        .side-card h3 {
+            font-size: 16px;
+            color: #172c52;
+            margin-bottom: 17px;
+        }
+
+        /* PREVIEW */
+
+        .preview-box {
+            background: #f4f7fd;
+            border-radius: 10px;
+            padding: 17px;
+            border-left: 4px solid #397ce7;
+        }
+
+        .preview-tag {
+            color: #397ce7;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .preview-box h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            color: #172c52;
+            overflow-wrap: anywhere;
+            margin-bottom: 10px;
+        }
+
+        .preview-box p {
+            color: #77859b;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        /* WRITING TIPS */
+
+        .tip {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 17px;
+            align-items: flex-start;
+        }
+
+        .tip:last-child {
+            margin-bottom: 0;
+        }
+
+        .tip-icon {
+            width: 33px;
+            height: 33px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 9px;
+            background: #eaf2ff;
+            font-size: 15px;
+        }
+
+        .tip strong {
+            display: block;
+            font-size: 12px;
+            color: #283b5c;
+            margin-bottom: 4px;
+        }
+
+        .tip p {
+            color: #8995a9;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* BOTTOM BANNER */
+
+        .bottom-banner {
+            background: linear-gradient(120deg, #172d56, #285b9e);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .bottom-banner strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #14254b;
+            color: #bdcbe2;
+            padding: 27px 15px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        footer span {
+            color: #80b5ff;
+            font-weight: 700;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 850px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+            header {
+                height: auto;
+                padding: 18px 5%;
+                flex-direction: column;
+                gap: 17px;
+            }
+
+            nav {
+                gap: 13px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .editor-card {
+                padding: 23px 18px;
+            }
+
+            .sidebar {
+                display: flex;
+            }
+
+            .main-container {
+                margin-top: -35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <header>
+        <h1>Blog<span>Space.</span></h1>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="create-blog.html" class="nav-cta">+ Write</a>
+        </nav>
+    </header>
+
+    <!-- HERO -->
+
+    <section class="hero">
+        <div class="hero-tag">YOUR CREATIVE SPACE</div>
+        <h2>Your Story Starts Here.</h2>
+        <p>Turn your thoughts into stories. Create something worth sharing.</p>
+    </section>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-container">
+
+        <!-- BLOG EDITOR -->
+
+        <section class="editor-card">
+
+            <div class="editor-heading">
+                <h3>Create a New Story ✍️</h3>
+                <span class="draft-label">BLOG EDITOR</span>
+            </div>
+
+            <form onsubmit="createBlog(event)">
+
+                <div class="form-group">
+                    <label for="blogTitle">Blog Title</label>
+
+                    <input
+                        type="text"
+                        id="blogTitle"
+                        placeholder="Give your story a beautiful title..."
+                        maxlength="120"
+                        required
+                    >
+
+                    <p class="field-hint">
+                        Make your title interesting and meaningful.
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="blogCategory">Choose a Category</label>
+
+                    <select id="blogCategory" required>
+                        <option value="">Select your blog category</option>
+                        <option value="Technology">💻 Technology</option>
+                        <option value="Education">📚 Education</option>
+                        <option value="Lifestyle">🌿 Lifestyle</option>
+                        <option value="Travel">✈️ Travel</option>
+                        <option value="Other">✨ Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="blogContent">Your Blog Content</label>
+
+                    <textarea
+                        id="blogContent"
+                        placeholder="Start writing your thoughts here...
+
+Tell your story, share your experience, or teach something new..."
+                        required
+                    ></textarea>
+
+                    <div class="editor-stats">
+                        <span>Words: <strong id="wordCount">0</strong></span>
+                        <span>Characters: <strong id="charCount">0</strong></span>
+                        <span>Reading time: <strong id="readTime">0 min</strong></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="publish-btn">
+                    ✨ Publish Your Blog
+                </button>
+
+                <p class="publish-note">
+                    Your story will be saved to the BlogSpace database.
+                </p>
+
+            </form>
+
+        </section>
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <!-- LIVE PREVIEW -->
+
+            <div class="side-card">
+                <h3>👀 Live Preview</h3>
+
+                <div class="preview-box">
+                    <div class="preview-tag" id="previewCategory">
+                        YOUR CATEGORY
+                    </div>
+
+                    <h4 id="previewTitle">Your blog title will appear here...</h4>
+
+                    <p id="previewContent">
+                        Your story preview will appear here as you write.
+                    </p>
+                </div>
+            </div>
+
+            <!-- WRITING TIPS -->
+
+            <div class="side-card">
+                <h3>💡 Writing Tips</h3>
+
+                <div class="tip">
+                    <div class="tip-icon">🎯</div>
+                    <div>
+                        <strong>Choose a good title</strong>
+                        <p>Make readers curious about your story.</p>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <div class="tip-icon">✍️</div>
+                    <div>
+                        <strong>Keep it meaningful</strong>
+                        <p>Share useful ideas and real experiences.</p>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <div class="tip-icon">📖</div>
+                    <div>
+                        <strong>Organize your thoughts</strong>
+                        <p>Use clear paragraphs and simple language.</p>
+                    </div>
+                </div>
+
+                <div class="tip">
+                    <div class="tip-icon">🚀</div>
+                    <div>
+                        <strong>Share your creativity</strong>
+                        <p>Write something that inspires others.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BANNER -->
+
+            <div class="bottom-banner">
+                <strong>Every great idea starts somewhere.</strong>
+                Your words matter. Start writing, keep creating and inspire the world with BlogSpace. 💙
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer>
+        Made with 💙 by <span>BlogSpace</span> |
+        Share your thoughts. Inspire the world.
+    </footer>
+
+    <!-- LIVE FEATURES -->
+
+    <script>
+        const titleInput = document.getElementById("blogTitle");
+        const contentInput = document.getElementById("blogContent");
+        const categoryInput = document.getElementById("blogCategory");
+
+        titleInput.addEventListener("input", updatePreview);
+        contentInput.addEventListener("input", updatePreview);
+        categoryInput.addEventListener("change", updatePreview);
+
+        function updatePreview() {
+
+            const title = titleInput.value.trim();
+            const content = contentInput.value.trim();
+            const category = categoryInput.value;
+
+            document.getElementById("previewTitle").textContent =
+                title || "Your blog title will appear here...";
+
+            document.getElementById("previewCategory").textContent =
+                category || "YOUR CATEGORY";
+
+            document.getElementById("previewContent").textContent =
+                content
+                    ? content.substring(0, 150) + (content.length > 150 ? "..." : "")
+                    : "Your story preview will appear here as you write.";
+
+            const words = content
+                ? content.split(/\s+/).filter(word => word.length > 0).length
+                : 0;
+
+            document.getElementById("wordCount").textContent = words;
+            document.getElementById("charCount").textContent = content.length;
+
+            const minutes = words === 0 ? 0 : Math.ceil(words / 200);
+
+            document.getElementById("readTime").textContent =
+                minutes + (minutes === 1 ? " min" : " min");
+        }
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

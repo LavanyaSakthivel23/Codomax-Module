@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BlogSpace | Welcome Back</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f3f6fc;
+            min-height: 100vh;
+            color: #192c4d;
+        }
+
+        header {
+            height: 75px;
+            padding: 0 8%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #14254b;
+        }
+
+        .logo {
+            color: white;
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #80b5ff;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 27px;
+        }
+
+        nav a {
+            color: #e2ebfa;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #80b5ff;
+        }
+
+        nav .nav-register {
+            background: #397ce7;
+            padding: 10px 19px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        /* MAIN */
+
+        .main-container {
+            min-height: calc(100vh - 130px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 55px 20px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 990px;
+            min-height: 570px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            box-shadow: 0 18px 55px rgba(20, 43, 83, 0.12);
+        }
+
+        /* LEFT PANEL */
+
+        .welcome-panel {
+            padding: 55px 43px;
+            background:
+                radial-gradient(circle at 10% 15%, #345f9e 0%, transparent 36%),
+                linear-gradient(145deg, #14254b, #1c477f, #2866b2);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-panel::before,
+        .welcome-panel::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50%;
+        }
+
+        .welcome-panel::before {
+            width: 270px;
+            height: 270px;
+            right: -100px;
+            top: -90px;
+        }
+
+        .welcome-panel::after {
+            width: 220px;
+            height: 220px;
+            left: -100px;
+            bottom: -90px;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-tag {
+            display: inline-block;
+            padding: 8px 14px;
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 30px;
+            color: #d7e8ff;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 27px;
+        }
+
+        .welcome-panel h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            line-height: 1.25;
+            margin-bottom: 19px;
+        }
+
+        .welcome-panel h1 span {
+            color: #8fc0ff;
+        }
+
+        .welcome-panel p {
+            color: #d6e4fa;
+            font-size: 14px;
+            line-height: 1.9;
+            max-width: 330px;
+        }
+
+        .welcome-quote {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255,255,255,0.09);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            color: #e1edff;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* RIGHT PANEL */
+
+        .form-panel {
+            padding: 55px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-panel h2 {
+            font-size: 28px;
+            color: #172c52;
+            margin-bottom: 9px;
+        }
+
+        .subtitle {
+            color: #8592a7;
+            font-size: 13px;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            color: #293c5c;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #dce4f0;
+            background: #fafcff;
+            border-radius: 9px;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+            color: #263957;
+            transition: 0.25s;
+        }
+
+        input:focus {
+            border-color: #397ce7;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(57,124,231,0.10);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 65px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #397ce7;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(110deg, #397ce7, #2455a5);
+            color: white;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+            box-shadow: 0 6px 17px rgba(57,124,231,0.22);
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 23px rgba(57,124,231,0.32);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 27px;
+            font-size: 13px;
+            color: #8592a7;
+        }
+
+        .register-link a {
+            color: #3478e5;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            background: #14254b;
+            color: #bdcbe2;
+            font-size: 12px;
+        }
+
+        footer span {
+            color: #80b5ff;
+            font-weight: 700;
+        }
+
+        @media(max-width: 750px) {
+            header {
+                padding: 0 5%;
+            }
+
+            nav {
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .login-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 470px;
+            }
+
+            .welcome-panel {
+                padding: 35px 30px;
+            }
+
+            .welcome-panel h1 {
+                font-size: 33px;
+            }
+
+            .welcome-quote {
+                margin-top: 20px;
+            }
+
+            .form-panel {
+                padding: 38px 28px;
+            }
+        }
+
+        @media(max-width: 430px) {
+            header {
+                height: auto;
+                padding: 17px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-container {
+                padding: 25px 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">Blog<span>Space.</span></a>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="nav-register">Register</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+
+        <div class="login-wrapper">
+
+            <!-- WELCOME PANEL -->
+
+            <section class="welcome-panel">
+
+                <div class="welcome-content">
+
+                    <div class="welcome-tag">WELCOME TO BLOGSPACE</div>
+
+                    <h1>Your ideas deserve to be <span>heard.</span></h1>
+
+                    <p>
+                        A place where creativity meets expression.
+                        Log in to share your thoughts, discover stories
+                        and inspire the world.
+                    </p>
+
+                    <div class="welcome-quote">
+                        "Every story matters. Every thought has the
+                        power to inspire someone."
+                        <br><br>
+                        — The BlogSpace Community
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- LOGIN FORM -->
+
+            <section class="form-panel">
+
+                <h2>Welcome Back! 👋</h2>
+
+                <p class="subtitle">
+                    Login to continue your BlogSpace journey.
+                </p>
+
+                <form onsubmit="loginUser(event)">
+
+                    <div class="form-group">
+
+                        <label for="loginEmail">Email Address</label>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            placeholder="Enter your email address"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="loginPassword">Password</label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                placeholder="Enter your password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                onclick="togglePassword()"
+                            >
+                                Show
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="login-btn">
+                        Login to BlogSpace →
+                    </button>
+
+                </form>
+
+                <p class="register-link">
+                    Don't have an account?
+                    <a href="register.html">Create an account</a>
+                </p>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer>
+        Made with 💙 by <span>BlogSpace</span> |
+        Share your thoughts. Inspire the world.
+    </footer>
+
+    <script>
+        function togglePassword() {
+
+            const password = document.getElementById("loginPassword");
+            const button = document.querySelector(".toggle-password");
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.textContent = "Hide";
+            } else {
+                password.type = "password";
+                button.textContent = "Show";
+            }
+        }
+    </script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
